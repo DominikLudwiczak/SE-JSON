@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="io-project-architecture" />
+        <module name="SE-JSON" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -15,6 +16,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="SE-JSON" options="-parameters" />
       <module name="io-project-architecture" options="-parameters" />
       <module name="ioprojectarchitecture" options="-parameters" />
     </option>

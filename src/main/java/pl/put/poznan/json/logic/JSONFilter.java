@@ -1,18 +1,91 @@
 package pl.put.poznan.json.logic;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
+
+/**
+ * This class represents a decorator that filters specified keys from JSON data.
+ * It extends the {@link JSONDecorator} class and adds filtering functionality.
+ */
 class JSONFilter extends JSONDecorator {
+
+    /**
+     * Constructs a new JSONFilter object with the specified JSONTools instance.
+     *
+     * @param jsonTools the JSONTools instance to decorate
+     */
     public JSONFilter(JSONTools jsonTools) {
         super(jsonTools);
     }
 
+    /**
+     * Processes the JSON data by filtering out the specified keys.
+     *
+     * @param jsonData the JSON data to process
+     * @return the filtered JSON data as a string
+     */
     @Override
     public String processJSON(String jsonData) {
-        // Delegate processing to the underlying component
-        String processedJSON = super.processJSON(jsonData);
+        Set<String> keysToFilter = getKeysFromUserInput();
 
-        // Add JSON filtering logic here
-        String filteredJSON = "<filtered JSON>";
+        // Read the JSON file
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            JsonNode rootNode = objectMapper.readTree(jsonData);
 
-        return filteredJSON;
+            // Filter out the specified keys
+            JsonNode filteredNode = filterKeys(rootNode, keysToFilter);
+
+            // Write the filtered JSON to a file
+            return filteredNode.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    /**
+     * Prompts the user to enter the keys to filter and returns a set of filtered keys.
+     *
+     * @return a set of filtered keys entered by the user
+     */
+    private static Set<String> getKeysFromUserInput() {
+        Set<String> keysToFilter = new HashSet<>();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter the keys to filter (separated by commas):");
+        String input = scanner.nextLine();
+
+        String[] keys = input.split(",");
+        for (String key : keys) {
+            keysToFilter.add(key.trim());
+        }
+
+        scanner.close();
+        return keysToFilter;
+    }
+
+    /**
+     * Recursively filters the specified keys from the JSON node.
+     *
+     * @param node         the JSON node to filter
+     * @param keysToFilter the set of keys to filter
+     * @return the filtered JSON node
+     */
+    private static JsonNode filterKeys(JsonNode node, Set<String> keysToFilter) {
+        if (node.isObject()) {
+            ObjectNode objectNode = (ObjectNode) node;
+            keysToFilter.forEach(objectNode::remove);
+        } else if (node.isArray()) {
+            node.forEach(childNode -> filterKeys(childNode, keysToFilter));
+        }
+
+        return node;
     }
 }
