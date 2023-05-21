@@ -13,7 +13,7 @@ import java.util.Set;
  * This class represents a decorator that filters specified keys from JSON data.
  * It extends the {@link JSONDecorator} class and adds filtering functionality.
  */
-class JSONFilter extends JSONDecorator {
+public class JSONFilter extends JSONDecorator {
 
     /**
      * Constructs a new JSONFilter object with the specified JSONProcessor instance.

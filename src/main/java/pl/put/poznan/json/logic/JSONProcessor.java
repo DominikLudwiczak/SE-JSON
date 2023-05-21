@@ -1,5 +1,5 @@
 package pl.put.poznan.json.logic;
 
-interface JSONProcessor {
+public interface JSONProcessor {
     String processJSON(String jsonData);
 }
