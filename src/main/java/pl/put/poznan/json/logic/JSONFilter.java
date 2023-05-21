@@ -14,9 +14,7 @@ import java.util.Set;
  * It extends the {@link JSONDecorator} class and adds filtering functionality.
  */
 public class JSONFilter extends JSONDecorator {
-
     private static final Scanner scanner = new Scanner(System.in);
-
     /**
      * Constructs a new JSONFilter object with the specified JSONProcessor instance.
      *
