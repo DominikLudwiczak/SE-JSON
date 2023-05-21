@@ -29,6 +29,7 @@ public class JSONValidator {
         } catch (JsonParseException e) {
             // JSON is invalid
             FileLogger.logger.info("Invalid JSON: " + e.getMessage());
+            throw e;
         }
     }
 }
