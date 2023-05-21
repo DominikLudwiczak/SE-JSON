@@ -3,6 +3,7 @@ package pl.put.poznan.json.app;
 import java.io.IOException;
 import java.util.Scanner;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import pl.put.poznan.json.logic.*;
 
