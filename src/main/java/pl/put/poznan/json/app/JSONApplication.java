@@ -7,10 +7,11 @@ import com.fasterxml.jackson.annotation.JsonFilter;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import pl.put.poznan.json.logic.*;
 
+import pl.put.poznan.json.logic.FileLogger;
+
 @SpringBootApplication(scanBasePackages = { "pl.put.poznan.json.rest" })
 public class JSONApplication {
     public static void main(String[] args) throws IOException {
-
         System.out.println("Welcome to JSON Tools, please input json file" + "\n" + "Paste Your JSON, and then press enter");
 
         Scanner scanner = new Scanner(System.in);
