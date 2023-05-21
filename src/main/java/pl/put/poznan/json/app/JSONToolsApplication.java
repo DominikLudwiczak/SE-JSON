@@ -1,11 +1,6 @@
 package pl.put.poznan.json.app;
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -21,7 +16,7 @@ public class JSONToolsApplication {
         JSONReader jsonReader = new JSONReader(filePath);
 
         String jsonData = jsonReader.readJSON();
-        System.out.println("JSON Data: " + jsonData);
+        System.out.println("JSON Data:\n" + jsonData + "\n");
 
         // Instantiate the JSONTools implementation
         DefaultJSONTools jsonTools = new DefaultJSONTools();
@@ -29,11 +24,6 @@ public class JSONToolsApplication {
         // Minify JSON
         JSONMinifier jsonMinifier = new JSONMinifier(jsonTools);
         String minifiedJson = jsonMinifier.processJSON(jsonData);
-        System.out.println("Minified JSON: " + minifiedJson);
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream("minified.json"), "utf-8"))) {
-            writer.write(minifiedJson);
-        }
-        System.out.println("Minified JSON saved to file: minified.json");
+        System.out.println("Minified JSON:\n" + minifiedJson);
     }
 }
