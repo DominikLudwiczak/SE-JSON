@@ -13,8 +13,8 @@ import java.util.Set;
  * This class represents a decorator that filters specified keys from JSON data.
  * It extends the {@link JSONDecorator} class and adds filtering functionality.
  */
-class JSONFilter extends JSONDecorator {
-
+public class JSONFilter extends JSONDecorator {
+    private static final Scanner scanner = new Scanner(System.in);
     /**
      * Constructs a new JSONFilter object with the specified JSONProcessor instance.
      *
@@ -57,17 +57,15 @@ class JSONFilter extends JSONDecorator {
      */
     private static Set<String> getKeysFromUserInput() {
         Set<String> keysToFilter = new HashSet<>();
-        Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter the keys to filter (separated by commas):");
-        String input = scanner.nextLine();
+        String input = scanner.nextLine().trim();
 
         String[] keys = input.split(",");
         for (String key : keys) {
             keysToFilter.add(key.trim());
         }
 
-        scanner.close();
         return keysToFilter;
     }
 
@@ -81,7 +79,19 @@ class JSONFilter extends JSONDecorator {
     private static JsonNode filterKeys(JsonNode node, Set<String> keysToFilter) {
         if (node.isObject()) {
             ObjectNode objectNode = (ObjectNode) node;
-            keysToFilter.forEach(objectNode::remove);
+            Set<String> keysToRemove = new HashSet<>();
+
+            objectNode.fields().forEachRemaining(entry -> {
+                String key = entry.getKey();
+                JsonNode value = entry.getValue();
+                if (keysToFilter.contains(key)) {
+                    keysToRemove.add(key);
+                } else {
+                    filterKeys(value, keysToFilter);
+                }
+            });
+
+            keysToRemove.forEach(objectNode::remove);
         } else if (node.isArray()) {
             node.forEach(childNode -> filterKeys(childNode, keysToFilter));
         }
