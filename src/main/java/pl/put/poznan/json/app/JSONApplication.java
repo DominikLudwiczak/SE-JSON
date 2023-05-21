@@ -45,15 +45,18 @@ public class JSONApplication {
                     break;
                 case 1:
                     jsonFile = new JSONMinifier(jsonFile);
-                    System.out.println("Processed File:" + "\n" + jsonFile.processJSON(jsonContent));
+                    jsonContent = jsonFile.processJSON(jsonContent);
+                    System.out.println("Processed File:" + "\n" + jsonContent);
                     break;
                 case 2:
                     jsonFile = new JSONUnminifier(jsonFile);
-                    System.out.println("Processed File:" + "\n" + jsonFile.processJSON(jsonContent));
+                    jsonContent = jsonFile.processJSON(jsonContent);
+                    System.out.println("Processed File:" + "\n" + jsonContent);
                     break;
                 case 3:
                     jsonFile = new JSONFilter(jsonFile);
-                    System.out.println("Processed File:" + "\n" + jsonFile.processJSON(jsonContent));
+                    jsonContent = jsonFile.processJSON(jsonContent);
+                    System.out.println("Processed File:" + "\n" + jsonContent);
                     break;
                 case 4:
                     System.out.println("Not supported yet!");
