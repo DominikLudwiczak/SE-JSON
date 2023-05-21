@@ -4,7 +4,7 @@ abstract class JSONDecorator implements JSONTools {
     protected static JSONTools jsonTools;
 
     public JSONDecorator(JSONTools jsonTools) {
-        this.jsonTools = jsonTools;
+        JSONDecorator.jsonTools = jsonTools;
     }
 
     @Override
