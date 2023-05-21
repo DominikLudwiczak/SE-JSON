@@ -1,6 +1,6 @@
 package pl.put.poznan.json.logic;
 
-public class DefaultJSONTools implements JSONTools {
+public class DefaultJSONProcessor implements JSONProcessor {
 
     @Override
     public String processJSON(String jsonData) {

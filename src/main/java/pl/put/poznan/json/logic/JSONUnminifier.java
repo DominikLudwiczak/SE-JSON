@@ -1,8 +1,8 @@
 package pl.put.poznan.json.logic;
 
 public class JSONUnminifier extends JSONDecorator {
-    public JSONUnminifier(JSONTools jsonTools) {
-        super(jsonTools);
+    public JSONUnminifier(JSONProcessor jsonProcessor) {
+        super(jsonProcessor);
     }
 
     @Override

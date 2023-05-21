@@ -7,12 +7,12 @@ package pl.put.poznan.json.logic;
 public class JSONMinifier extends JSONDecorator {
 
     /**
-     * Constructs a new JSONMinifier object with the specified JSONTools instance.
+     * Constructs a new JSONMinifier object with the specified JSONProcessor instance.
      *
-     * @param jsonTools The JSONTools instance to be decorated.
+     * @param jsonProcessor The JSONProcessor instance to be decorated.
      */
-    public JSONMinifier(JSONTools jsonTools) {
-        super(jsonTools);
+    public JSONMinifier(JSONProcessor jsonProcessor) {
+        super(jsonProcessor);
     }
 
     /**
