@@ -81,7 +81,19 @@ public class JSONFilter extends JSONDecorator {
     private static JsonNode filterKeys(JsonNode node, Set<String> keysToFilter) {
         if (node.isObject()) {
             ObjectNode objectNode = (ObjectNode) node;
-            keysToFilter.forEach(objectNode::remove);
+            Set<String> keysToRemove = new HashSet<>();
+
+            objectNode.fields().forEachRemaining(entry -> {
+                String key = entry.getKey();
+                JsonNode value = entry.getValue();
+                if (keysToFilter.contains(key)) {
+                    keysToRemove.add(key);
+                } else {
+                    filterKeys(value, keysToFilter);
+                }
+            });
+
+            keysToRemove.forEach(objectNode::remove);
         } else if (node.isArray()) {
             node.forEach(childNode -> filterKeys(childNode, keysToFilter));
         }
