@@ -1,5 +1,9 @@
 package pl.put.poznan.json.logic;
 
+/**
+ * This is a simple class with a single static method that validates JSON
+ * strings.
+ */
 public class JSONUnminifier extends JSONDecorator {
     public JSONUnminifier(JSONProcessor jsonProcessor) {
         super(jsonProcessor);
@@ -16,6 +20,12 @@ public class JSONUnminifier extends JSONDecorator {
         return unminifiedJSON;
     }
 
+    /**
+     * Unminifies the specified JSON string.
+     *
+     * @param minifiedJSON the JSON string to unminify
+     * @return the unminified JSON string
+     */
     private String unminifyJSON(String minifiedJSON) {
         StringBuilder unminifiedJSONBuilder = new StringBuilder();
         int indentationLevel = 0;

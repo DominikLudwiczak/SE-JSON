@@ -3,12 +3,10 @@ package pl.put.poznan.json.logic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * This is a simple class with a single static method that logs some messages
+ * using SLF4J.
+ */
 public class FileLogger {
-    private static final Logger logger = LoggerFactory.getLogger(FileLogger.class);
-
-    public static void doSomething() {
-        logger.info("Doing something...");
-        logger.debug("Debugging information");
-        logger.error("An error occurred");
-    }
+    public static final Logger logger = LoggerFactory.getLogger(FileLogger.class);
 }

@@ -6,6 +6,10 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * This is a simple class with a single static method that validates JSON
+ * strings.
+ */
 public class JSONValidator {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -24,7 +28,7 @@ public class JSONValidator {
             // JSON is valid
         } catch (JsonParseException e) {
             // JSON is invalid
-            throw new InvalidJSONException("Invalid JSON: " + e.getMessage());
+            FileLogger.logger.info("Invalid JSON: " + e.getMessage());
         }
     }
 }

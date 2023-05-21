@@ -10,6 +10,7 @@ import pl.put.poznan.json.logic.FileLogger;
 public class JSONApplication {
     public static void main(String[] args) throws IOException {
         System.out.println(":c");
-        FileLogger.doSomething();
+
+        FileLogger.logger.info("Starting JSON Application...");
     }
 }
