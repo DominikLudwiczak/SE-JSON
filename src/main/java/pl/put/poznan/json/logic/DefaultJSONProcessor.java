@@ -12,6 +12,7 @@ public class DefaultJSONProcessor implements JSONProcessor {
         } catch (JsonProcessingException | InvalidJSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
         // Implement your JSON processing logic here
         return jsonData;
