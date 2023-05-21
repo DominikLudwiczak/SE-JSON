@@ -16,12 +16,12 @@ import java.util.Set;
 class JSONFilter extends JSONDecorator {
 
     /**
-     * Constructs a new JSONFilter object with the specified JSONTools instance.
+     * Constructs a new JSONFilter object with the specified JSONProcessor instance.
      *
-     * @param jsonTools the JSONTools instance to decorate
+     * @param jsonProcessor the JSONProcessor instance to decorate
      */
-    public JSONFilter(JSONTools jsonTools) {
-        super(jsonTools);
+    public JSONFilter(JSONProcessor jsonProcessor) {
+        super(jsonProcessor);
     }
 
     /**

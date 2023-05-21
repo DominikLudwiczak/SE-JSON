@@ -1,8 +1,8 @@
 package pl.put.poznan.json.logic;
 
 class JSONComparator extends JSONDecorator {
-    public JSONComparator(JSONTools jsonTools) {
-        super(jsonTools);
+    public JSONComparator(JSONProcessor jsonProcessor) {
+        super(jsonProcessor);
     }
 
     @Override

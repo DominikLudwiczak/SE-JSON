@@ -1,14 +1,14 @@
 package pl.put.poznan.json.logic;
 
-abstract class JSONDecorator implements JSONTools {
-    protected static JSONTools jsonTools;
+abstract class JSONDecorator implements JSONProcessor {
+    protected JSONProcessor jsonProcessor;
 
-    public JSONDecorator(JSONTools jsonTools) {
-        JSONDecorator.jsonTools = jsonTools;
+    public JSONDecorator(JSONProcessor jsonProcessor) {
+        this.jsonProcessor = jsonProcessor;
     }
 
     @Override
     public String processJSON(String jsonData) {
-        return jsonTools.processJSON(jsonData);
+        return jsonProcessor.processJSON(jsonData);
     }
 }
