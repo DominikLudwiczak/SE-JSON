@@ -14,7 +14,7 @@ import java.util.Set;
  * It extends the {@link JSONDecorator} class and adds filtering functionality.
  */
 public class JSONFilter extends JSONDecorator {
-
+    private static final Scanner scanner = new Scanner(System.in);
     /**
      * Constructs a new JSONFilter object with the specified JSONProcessor instance.
      *
@@ -57,17 +57,15 @@ public class JSONFilter extends JSONDecorator {
      */
     private static Set<String> getKeysFromUserInput() {
         Set<String> keysToFilter = new HashSet<>();
-        Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter the keys to filter (separated by commas):");
-        String input = scanner.nextLine();
+        String input = scanner.nextLine().trim();
 
         String[] keys = input.split(",");
         for (String key : keys) {
             keysToFilter.add(key.trim());
         }
 
-        scanner.close();
         return keysToFilter;
     }
 
