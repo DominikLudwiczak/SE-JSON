@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import pl.put.poznan.json.logic.*;
 
@@ -12,6 +13,8 @@ import pl.put.poznan.json.logic.FileLogger;
 @SpringBootApplication(scanBasePackages = { "pl.put.poznan.json.rest" })
 public class JSONApplication {
     public static void main(String[] args) throws IOException {
+        SpringApplication.run(JSONApplication.class, args);
+
         int action = 1;
         System.out.println("Welcome to JSON Tools, please input json file" + "\n" + "Paste Your JSON, and then press enter");
 
@@ -44,8 +47,9 @@ public class JSONApplication {
             System.out.println("0: Exit");
             System.out.println("1: Minimize JSON");
             System.out.println("2: Unminify JSON");
-            System.out.println("3: Filter JSON");
-            System.out.println("4: Compare JSON");
+            System.out.println("3: Filter JSON (exclude keys)");
+            System.out.println("4: Filter JSON (select keys)");
+            System.out.println("5: Compare JSON");
 
             action = scanner.nextInt();
 
@@ -68,6 +72,11 @@ public class JSONApplication {
                     System.out.println("Processed File:" + "\n" + jsonContent);
                     break;
                 case 4:
+                    jsonFile = new JSONSelectFilter(jsonFile);
+                    jsonContent = jsonFile.processJSON(jsonContent);
+                    System.out.println("Processed File:" + "\n" + jsonContent);
+                    break;
+                case 5:
                     jsonFile = new JSONComparator(jsonFile);
                     System.out.println(jsonFile.processJSON(jsonContent));
                     break;

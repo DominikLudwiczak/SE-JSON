@@ -1,42 +1,75 @@
 package pl.put.poznan.json.rest;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
-import pl.put.poznan.json.logic.JSON;
+import pl.put.poznan.json.logic.*;
 
 import java.util.Arrays;
+import java.util.Set;
 
 
 @RestController
-@RequestMapping("/{text}")
 public class JSONController {
 
     private static final Logger logger = LoggerFactory.getLogger(JSONController.class);
 
-    @RequestMapping(method = RequestMethod.GET, produces = "application/json")
-    public String get(@PathVariable String text,
-                              @RequestParam(value="transforms", defaultValue="upper,escape") String[] transforms) {
+    private JSONProcessor jsonFile = new DefaultJSONProcessor();
 
-        // log the parameters
-        logger.debug(text);
-        logger.debug(Arrays.toString(transforms));
+    @RequestMapping(method = RequestMethod.POST, path="/minify", produces = "application/string")
+    public String minify(@RequestBody String jsonContent) {
+        logger.debug(jsonContent);
 
-        // perform the transformation, you should run your logic here, below is just a silly example
-        JSON transformer = new JSON(transforms);
-        return transformer.transform(text);
+        JSONProcessor jsonProcessor = new JSONMinifier(this.jsonFile);
+        return jsonProcessor.processJSON(jsonContent);
     }
 
-    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
-    public String post(@PathVariable String text,
-                      @RequestBody String[] transforms) {
+    @RequestMapping(method = RequestMethod.POST, path="/unminify", produces = "application/string")
+    public String unminify(@RequestBody String jsonContent) {
+        logger.debug(jsonContent);
 
-        // log the parameters
-        logger.debug(text);
-        logger.debug(Arrays.toString(transforms));
+        JSONProcessor jsonProcessor = new JSONUnminifier(this.jsonFile);
+        return jsonProcessor.processJSON(jsonContent);
+    }
 
-        // perform the transformation, you should run your logic here, below is just a silly example
-        JSON transformer = new JSON(transforms);
-        return transformer.transform(text);
+    @RequestMapping(method = RequestMethod.POST, path="/filter/exclude", produces = "application/string")
+    public String filter_exclude(@RequestBody ObjectNode body) {
+        var fields = body.fields();
+        String jsonContent = fields.next().getValue().toString();
+        String[] keys = fields.next().getValue().textValue().split(",");
+
+        logger.debug(jsonContent);
+        logger.debug(Arrays.toString(keys));
+
+        JSONProcessor jsonProcessor = new JSONFilter(this.jsonFile);
+        return jsonProcessor.processJSON(jsonContent, Set.of(keys));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path="/filter/select", produces = "application/string")
+    public String filter_select(@RequestBody ObjectNode body) {
+        var fields = body.fields();
+        String jsonContent = fields.next().getValue().toString();
+        String[] keys = fields.next().getValue().textValue().split(",");
+
+        logger.debug(jsonContent);
+        logger.debug(Arrays.toString(keys));
+
+        JSONProcessor jsonProcessor = new JSONSelectFilter(this.jsonFile);
+        return jsonProcessor.processJSON(jsonContent, Set.of(keys));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path="/compare", produces = "application/string")
+    public String compare(@RequestBody ObjectNode body) {
+        var fields = body.fields();
+        String jsonContent = fields.next().getValue().toString();
+        String jsonToCompare = fields.next().getValue().toString();
+
+        logger.debug(jsonContent);
+        logger.debug(jsonToCompare);
+
+        JSONProcessor jsonProcessor = new JSONComparator(this.jsonFile);
+        return jsonProcessor.processJSON(jsonContent, jsonToCompare);
     }
 }
 
