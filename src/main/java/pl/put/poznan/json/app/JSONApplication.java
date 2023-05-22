@@ -27,7 +27,6 @@ public class JSONApplication {
             while (!(line = scanner.nextLine()).isEmpty()) {
                 json.append(line).append("\n");
             }
-            System.out.println("json: " + json);
             json.setLength(json.length() - 1);
             jsonContent = json.toString();
         }
