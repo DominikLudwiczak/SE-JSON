@@ -13,6 +13,8 @@ import java.util.Scanner;
 public class JSONComparator extends JSONDecorator {
     private static final Scanner scanner = new Scanner(System.in);
     private static boolean isDifferent = false;
+    
+    private String message;
 
     public JSONComparator(JSONProcessor jsonProcessor) {
         super(jsonProcessor);
@@ -65,8 +67,8 @@ public class JSONComparator extends JSONDecorator {
      * The differences between the two JSON files are printed to the console.
      *
      * @param jsonData The JSON data to be processed.
-     * @param jsonData2 Second JSON data to be compared
-     * @return unchanged jsonData.
+     * @param jsonData2 Second JSON data to be compared.
+     * @return message containing info about differences between files.
      */
     public String CompareJSON(String jsonData, String jsonData2){
         try {
@@ -78,6 +80,7 @@ public class JSONComparator extends JSONDecorator {
             Call compareJSONNodes twice with different node as first
             each time to make sure it covers all nodes from both files
              */
+            message = "";
             compareJSONNodes(file1Node, file2Node, "");
             compareJSONNodes(file2Node, file1Node, "");
             if (!isDifferent) {
@@ -87,7 +90,7 @@ public class JSONComparator extends JSONDecorator {
             e.printStackTrace();
         }
         isDifferent = false;
-        return jsonData;
+        return message;
     }
 
     /**
@@ -96,19 +99,19 @@ public class JSONComparator extends JSONDecorator {
      * @param node1 The current node from the first JSON file.
      * @param node2 The current node from the second JSON file.
      * @param path  The path of the current node in the JSON structure.
+     * @return message containing info about differences between files.
      */
-    private static void compareJSONNodes(JsonNode node1, JsonNode node2, String path) {
+    private String compareJSONNodes(JsonNode node1, JsonNode node2, String path) {
         if (node1.equals(node2)) {
-            return;
+            return message;
         }
 
         if (!node1.isContainerNode() || !node2.isContainerNode()) {
             isDifferent = true;
-            System.out.println("Difference at path: " + path);
-            System.out.println(path + ": " + node1);
-            System.out.println(path + ": " + node2);
-            System.out.println();
-            return;
+            message += "Difference at path: " + path + "\n";
+            message += path + ": " + node1 + "\n";
+            message += path + ": " + node2 + "\n";
+            return message;
         }
 
         ObjectNode objectNode1 = (ObjectNode) node1;
@@ -120,5 +123,6 @@ public class JSONComparator extends JSONDecorator {
             JsonNode childNode2 = objectNode2.get(fieldName);
             compareJSONNodes(childNode1, childNode2, fieldPath);
         });
+        return message;
     }
 }
