@@ -51,7 +51,6 @@ public class JSONApplication {
 
             switch (action) {
                 case 0:
-                    action = 0;
                     break;
                 case 1:
                     jsonFile = new JSONMinifier(jsonFile);
@@ -70,7 +69,7 @@ public class JSONApplication {
                     break;
                 case 4:
                     jsonFile = new JSONComparator(jsonFile);
-                    jsonContent = jsonFile.processJSON(jsonContent);
+                    System.out.println(jsonFile.processJSON(jsonContent));
                     break;
 
             }
