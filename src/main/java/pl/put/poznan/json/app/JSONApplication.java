@@ -3,12 +3,9 @@ package pl.put.poznan.json.app;
 import java.io.IOException;
 import java.util.Scanner;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import pl.put.poznan.json.logic.*;
-
-import pl.put.poznan.json.logic.FileLogger;
 
 @SpringBootApplication(scanBasePackages = { "pl.put.poznan.json.rest" })
 public class JSONApplication {
@@ -16,7 +13,8 @@ public class JSONApplication {
         SpringApplication.run(JSONApplication.class, args);
 
         int action = 1;
-        System.out.println("Welcome to JSON Tools, please input json file" + "\n" + "Paste Your JSON, and then press enter");
+        System.out.println(
+                "Welcome to JSON Tools, please input json file" + "\n" + "Paste Your JSON, and then press enter");
 
         Scanner scanner = new Scanner(System.in);
 
@@ -28,19 +26,15 @@ public class JSONApplication {
         }
         json.setLength(json.length() - 1);
         String jsonContent = json.toString();
-        JSONValidator valid = new JSONValidator();
 
-        try{
-            valid.validate(jsonContent);
-        }
-        catch (InvalidJSONException e) {
+        try {
+            JSONValidator.validate(jsonContent);
+        } catch (InvalidJSONException e) {
             throw new RuntimeException(e);
         }
 
-
         System.out.println("Pasted file:" + "\n" + jsonContent + "\n");
         System.out.println("Please chose what You want to do with JSON:");
-
 
         while (action != 0) {
             JSONProcessor jsonFile = new DefaultJSONProcessor();
