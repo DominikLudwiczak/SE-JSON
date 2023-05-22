@@ -32,13 +32,6 @@ public class JSONApplication {
             jsonContent = json.toString();
         }
 
-        try {
-            JSONValidator.validate(jsonContent);
-        } catch (Exception e) {
-            FileLogger.logger.error(e.getStackTrace().toString());
-            System.out.println("Invalid JSON: " + e.getMessage());
-        }
-
         System.out.println("Pasted file:" + "\n" + jsonContent + "\n");
         System.out.println("Please chose what You want to do with JSON:");
 

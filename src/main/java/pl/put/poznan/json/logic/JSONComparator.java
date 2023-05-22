@@ -7,53 +7,52 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.Scanner;
 
 /**
- * The JSONComparator class is responsible for comparing two JSON files and finding their differences.
+ * The JSONComparator class is responsible for comparing two JSON files and
+ * finding their differences.
  * It extends the {@link JSONDecorator} class and adds comparing functionality.
  */
 public class JSONComparator extends JSONDecorator {
-    private static final Scanner scanner = new Scanner(System.in);
     private static boolean isDifferent = false;
-    
+
     private String message;
 
     public JSONComparator(JSONProcessor jsonProcessor) {
         super(jsonProcessor);
     }
 
-
     /**
      * Ask user for the second JSON file and call CompareJSON method
+     * 
      * @param jsonData the JSON data to process
      * @return unchanged jsonData
      */
     @Override
     public String processJSON(String jsonData) {
         System.out.println("Enter the content of the second JSON file:");
-        StringBuilder json = new StringBuilder();
+
+        Scanner scanner = new Scanner(System.in);
+        String jsonData2 = "__invalid__";
         String line;
 
-        while (!(line = scanner.nextLine()).isEmpty()) {
-            json.append(line).append("\n");
-        }
-        json.setLength(json.length() - 1);
-        String jsonData2 = json.toString();
-        /* Validate Entered JSON file
+        while (!JSONValidator.validate(jsonData2)) {
 
-        JSONValidator valid = new JSONValidator();
+            StringBuilder json = new StringBuilder();
 
-        try{
-            valid.validate(jsonData2);
+            System.out.println("Paste valid JSON, and then press enter:\n");
+            while (!(line = scanner.nextLine()).isEmpty()) {
+                json.append(line).append("\n");
+            }
+            System.out.println("json: " + json);
+            json.setLength(json.length() - 1);
+            jsonData2 = json.toString();
         }
-        catch (InvalidJSONException e) {
-            throw new RuntimeException(e);
-        }
-        */
         return compareJSON(jsonData, jsonData2);
     }
 
     /**
      * Call CompareJSON method
-     * @param jsonData the JSON data to process
+     * 
+     * @param jsonData  the JSON data to process
      * @param jsonData2 second JSON data to process
      * @return unchanged jsonData
      */
@@ -63,22 +62,23 @@ public class JSONComparator extends JSONDecorator {
     }
 
     /**
-     * Processes the JSON data by comparing it with the content of the second JSON file.
+     * Processes the JSON data by comparing it with the content of the second JSON
+     * file.
      * The differences between the two JSON files are printed to the console.
      *
-     * @param jsonData The JSON data to be processed.
+     * @param jsonData  The JSON data to be processed.
      * @param jsonData2 Second JSON data to be compared.
      * @return message containing info about differences between files.
      */
-    public String compareJSON(String jsonData, String jsonData2){
+    public String compareJSON(String jsonData, String jsonData2) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode file1Node = objectMapper.readTree(jsonData);
             JsonNode file2Node = objectMapper.readTree(jsonData2);
 
             /*
-            Call compareJSONNodes twice with different node as first
-            each time to make sure it covers all nodes from both files
+             * Call compareJSONNodes twice with different node as first
+             * each time to make sure it covers all nodes from both files
              */
             message = "";
             compareJSONNodes(file1Node, file2Node, "");
@@ -94,7 +94,8 @@ public class JSONComparator extends JSONDecorator {
     }
 
     /**
-     * Recursively compares the nodes of the two JSON files and prints the differences found.
+     * Recursively compares the nodes of the two JSON files and prints the
+     * differences found.
      *
      * @param node1 The current node from the first JSON file.
      * @param node2 The current node from the second JSON file.
