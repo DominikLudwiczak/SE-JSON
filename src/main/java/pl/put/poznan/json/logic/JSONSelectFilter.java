@@ -3,15 +3,15 @@ package pl.put.poznan.json.logic;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
 /**
- * Specification of {@link JSONFilter} class, filters out all keys except provided ones
+ * Specification of {@link JSONFilter} class, filters out all keys except
+ * provided ones
  */
-public class JSONSelectFilter extends JSONFilter{
+public class JSONSelectFilter extends JSONFilter {
 
     /**
      * Constructs a new JSONFilter object with the specified JSONProcessor instance.
@@ -29,7 +29,7 @@ public class JSONSelectFilter extends JSONFilter{
      * @return the filtered JSON data as a string
      */
     @Override
-    public String processJSON(String jsonData){
+    public String processJSON(String jsonData) {
         Set<String> keys = getKeysFromUserInput();
         return filterJSON(jsonData, keys);
     }
@@ -38,11 +38,11 @@ public class JSONSelectFilter extends JSONFilter{
      * Calls processJSON method
      *
      * @param jsonData the JSON data to process
-     * @param keys keys not to be filtered out
+     * @param keys     keys not to be filtered out
      * @return the filtered JSON data as a string
      */
     @Override
-    public String processJSON(String jsonData, Set<String> keys){
+    public String processJSON(String jsonData, Set<String> keys) {
         return filterJSON(jsonData, keys);
     }
 
@@ -51,11 +51,11 @@ public class JSONSelectFilter extends JSONFilter{
      * calls filterJSON method from parent class
      *
      * @param jsonData the JSON data to process
-     * @param keys keys to be filtered out
+     * @param keys     keys to be filtered out
      * @return the filtered JSON data as a string
      */
     @Override
-    public String filterJSON(String jsonData, Set<String> keys){
+    public String filterJSON(String jsonData, Set<String> keys) {
         Set<String> keysToRemove = new HashSet<>();
         ObjectMapper objectMapper = new ObjectMapper();
         try {
@@ -64,8 +64,9 @@ public class JSONSelectFilter extends JSONFilter{
             keysToRemove.removeAll(keys);
 
             return super.filterJSON(jsonData, keysToRemove);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            FileLogger.logger.error(e.getStackTrace().toString());
+            System.out.println("Error while filtering JSON file");
         }
         return "";
     }
@@ -73,7 +74,7 @@ public class JSONSelectFilter extends JSONFilter{
     /**
      * Method to retrieve all keys from JSON file
      *
-     * @param node JSON file as JsonNode
+     * @param node     JSON file as JsonNode
      * @param keyNames Set to which keys will be extracted
      */
     private void extractKeyNames(JsonNode node, Set<String> keyNames) {
