@@ -1,5 +1,5 @@
 package pl.put.poznan.json.rest;
-import com.fasterxml.jackson.databind.JsonNode;
+
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +9,6 @@ import pl.put.poznan.json.logic.*;
 import java.util.Arrays;
 import java.util.Set;
 
-
 @RestController
 public class JSONController {
 
@@ -17,7 +16,7 @@ public class JSONController {
 
     private JSONProcessor jsonFile = new DefaultJSONProcessor();
 
-    @RequestMapping(method = RequestMethod.POST, path="/minify", produces = "application/string")
+    @RequestMapping(method = RequestMethod.POST, path = "/minify", produces = "application/string")
     public String minify(@RequestBody String jsonContent) {
         logger.debug(jsonContent);
 
@@ -25,7 +24,7 @@ public class JSONController {
         return jsonProcessor.processJSON(jsonContent);
     }
 
-    @RequestMapping(method = RequestMethod.POST, path="/unminify", produces = "application/string")
+    @RequestMapping(method = RequestMethod.POST, path = "/unminify", produces = "application/string")
     public String unminify(@RequestBody String jsonContent) {
         logger.debug(jsonContent);
 
@@ -33,7 +32,7 @@ public class JSONController {
         return jsonProcessor.processJSON(jsonContent);
     }
 
-    @RequestMapping(method = RequestMethod.POST, path="/filter/exclude", produces = "application/string")
+    @RequestMapping(method = RequestMethod.POST, path = "/filter/exclude", produces = "application/string")
     public String filter_exclude(@RequestBody ObjectNode body) {
         var fields = body.fields();
         String jsonContent = fields.next().getValue().toString();
@@ -46,7 +45,7 @@ public class JSONController {
         return jsonProcessor.processJSON(jsonContent, Set.of(keys));
     }
 
-    @RequestMapping(method = RequestMethod.POST, path="/filter/select", produces = "application/string")
+    @RequestMapping(method = RequestMethod.POST, path = "/filter/select", produces = "application/string")
     public String filter_select(@RequestBody ObjectNode body) {
         var fields = body.fields();
         String jsonContent = fields.next().getValue().toString();
@@ -59,7 +58,7 @@ public class JSONController {
         return jsonProcessor.processJSON(jsonContent, Set.of(keys));
     }
 
-    @RequestMapping(method = RequestMethod.POST, path="/compare", produces = "application/string")
+    @RequestMapping(method = RequestMethod.POST, path = "/compare", produces = "application/string")
     public String compare(@RequestBody ObjectNode body) {
         var fields = body.fields();
         String jsonContent = fields.next().getValue().toString();
@@ -72,5 +71,3 @@ public class JSONController {
         return jsonProcessor.processJSON(jsonContent, jsonToCompare);
     }
 }
-
-
