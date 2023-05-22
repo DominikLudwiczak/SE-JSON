@@ -69,7 +69,8 @@ public class JSONApplication {
                     System.out.println("Processed File:" + "\n" + jsonContent);
                     break;
                 case 4:
-                    System.out.println("Not supported yet!");
+                    jsonFile = new JSONComparator(jsonFile);
+                    jsonContent = jsonFile.processJSON(jsonContent);
                     break;
 
             }
