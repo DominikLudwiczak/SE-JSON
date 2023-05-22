@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.logging.Filter;
 
 /**
  * This class represents a decorator that filters specified keys from JSON data.
@@ -16,6 +15,7 @@ import java.util.logging.Filter;
  */
 public class JSONFilter extends JSONDecorator {
     private static final Scanner scanner = new Scanner(System.in);
+
     /**
      * Constructs a new JSONFilter object with the specified JSONProcessor instance.
      *
@@ -39,12 +39,13 @@ public class JSONFilter extends JSONDecorator {
 
     /**
      * Calls processJSON method
+     * 
      * @param jsonData the JSON data to process
-     * @param keys keys to be filtered out
+     * @param keys     keys to be filtered out
      * @return the filtered JSON data as a string
      */
     @Override
-    public String processJSON(String jsonData, Set<String> keys){
+    public String processJSON(String jsonData, Set<String> keys) {
         return filterJSON(jsonData, keys);
     }
 
@@ -52,10 +53,10 @@ public class JSONFilter extends JSONDecorator {
      * Processes the JSON data by filtering out the specified keys.
      *
      * @param jsonData the JSON data to process
-     * @param keys keys to be filtered out
+     * @param keys     keys to be filtered out
      * @return the filtered JSON data as a string
      */
-    public String filterJSON(String jsonData, Set<String> keys){
+    public String filterJSON(String jsonData, Set<String> keys) {
         // Read the JSON file
         ObjectMapper objectMapper = new ObjectMapper();
         try {
@@ -73,7 +74,8 @@ public class JSONFilter extends JSONDecorator {
     }
 
     /**
-     * Prompts the user to enter the keys to filter and returns a set of filtered keys.
+     * Prompts the user to enter the keys to filter and returns a set of filtered
+     * keys.
      *
      * @return a set of filtered keys entered by the user
      */
@@ -94,7 +96,7 @@ public class JSONFilter extends JSONDecorator {
     /**
      * Recursively filters the specified keys from the JSON node.
      *
-     * @param node the JSON node to filter
+     * @param node         the JSON node to filter
      * @param keysToFilter the set of keys to filter
      * @return the filtered JSON node
      */
