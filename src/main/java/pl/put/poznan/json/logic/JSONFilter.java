@@ -34,7 +34,7 @@ public class JSONFilter extends JSONDecorator {
     @Override
     public String processJSON(String jsonData) {
         Set<String> keys = getKeysFromUserInput();
-        return FilterJSON(jsonData, keys);
+        return filterJSON(jsonData, keys);
     }
 
     /**
@@ -45,7 +45,7 @@ public class JSONFilter extends JSONDecorator {
      */
     @Override
     public String processJSON(String jsonData, Set<String> keys){
-        return FilterJSON(jsonData, keys);
+        return filterJSON(jsonData, keys);
     }
 
     /**
@@ -55,7 +55,7 @@ public class JSONFilter extends JSONDecorator {
      * @param keys keys to be filtered out
      * @return the filtered JSON data as a string
      */
-    public String FilterJSON(String jsonData, Set<String> keys){
+    public String filterJSON(String jsonData, Set<String> keys){
         // Read the JSON file
         ObjectMapper objectMapper = new ObjectMapper();
         try {
@@ -77,7 +77,7 @@ public class JSONFilter extends JSONDecorator {
      *
      * @return a set of filtered keys entered by the user
      */
-    private static Set<String> getKeysFromUserInput() {
+    protected static Set<String> getKeysFromUserInput() {
         Set<String> keysToFilter = new HashSet<>();
 
         System.out.println("Enter the keys to filter (separated by commas):");
