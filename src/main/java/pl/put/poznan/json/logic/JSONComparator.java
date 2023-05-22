@@ -46,7 +46,7 @@ public class JSONComparator extends JSONDecorator {
             throw new RuntimeException(e);
         }
         */
-        return CompareJSON(jsonData, jsonData2);
+        return compareJSON(jsonData, jsonData2);
     }
 
     /**
@@ -57,7 +57,7 @@ public class JSONComparator extends JSONDecorator {
      */
     @Override
     public String processJSON(String jsonData, String jsonData2) {
-        return CompareJSON(jsonData, jsonData2);
+        return compareJSON(jsonData, jsonData2);
     }
 
     /**
@@ -68,7 +68,7 @@ public class JSONComparator extends JSONDecorator {
      * @param jsonData2 Second JSON data to be compared
      * @return unchanged jsonData.
      */
-    public String CompareJSON(String jsonData, String jsonData2){
+    public String compareJSON(String jsonData, String jsonData2){
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode file1Node = objectMapper.readTree(jsonData);
