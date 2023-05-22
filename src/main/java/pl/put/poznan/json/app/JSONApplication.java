@@ -13,24 +13,30 @@ public class JSONApplication {
         SpringApplication.run(JSONApplication.class, args);
 
         int action = 1;
-        System.out.println(
-                "Welcome to JSON Tools, please input json file" + "\n" + "Paste Your JSON, and then press enter");
+        System.out.println("Welcome to JSON Tools, please input json file");
 
         Scanner scanner = new Scanner(System.in);
-
-        StringBuilder json = new StringBuilder();
+        String jsonContent = "__invalid__";
         String line;
 
-        while (!(line = scanner.nextLine()).isEmpty()) {
-            json.append(line).append("\n");
+        while (!JSONValidator.validate(jsonContent)) {
+
+            StringBuilder json = new StringBuilder();
+
+            System.out.println("Paste valid JSON, and then press enter:\n");
+            while (!(line = scanner.nextLine()).isEmpty()) {
+                json.append(line).append("\n");
+            }
+            System.out.println("json: " + json);
+            json.setLength(json.length() - 1);
+            jsonContent = json.toString();
         }
-        json.setLength(json.length() - 1);
-        String jsonContent = json.toString();
 
         try {
             JSONValidator.validate(jsonContent);
-        } catch (InvalidJSONException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            FileLogger.logger.error(e.getStackTrace().toString());
+            System.out.println("Invalid JSON: " + e.getMessage());
         }
 
         System.out.println("Pasted file:" + "\n" + jsonContent + "\n");
@@ -77,6 +83,7 @@ public class JSONApplication {
 
             }
         }
+        scanner.close();
         System.out.println("Thank You for using JSON Tools!");
     }
 }

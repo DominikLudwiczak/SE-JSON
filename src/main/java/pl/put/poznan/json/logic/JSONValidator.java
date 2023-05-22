@@ -1,6 +1,5 @@
 package pl.put.poznan.json.logic;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -21,15 +20,15 @@ public class JSONValidator {
      * @throws JsonMappingException    if the JSON string is invalid
      * @throws JsonProcessingException if the JSON string is invalid
      */
-    public static void validate(String jsonString)
-            throws InvalidJSONException, JsonMappingException, JsonProcessingException {
+    public static boolean validate(String jsonString) {
         try {
             JsonNode jsonNode = objectMapper.readTree(jsonString);
+            return true;
             // JSON is valid
-        } catch (JsonParseException e) {
+        } catch (Exception e) {
             // JSON is invalid
             FileLogger.logger.info("Invalid JSON: " + e.getMessage());
-            throw e;
+            return false;
         }
     }
 }
