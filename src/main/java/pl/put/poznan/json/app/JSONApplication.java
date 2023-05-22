@@ -77,5 +77,6 @@ public class JSONApplication {
         }
         scanner.close();
         System.out.println("Thank You for using JSON Tools!");
+        System.exit(0);
     }
 }
