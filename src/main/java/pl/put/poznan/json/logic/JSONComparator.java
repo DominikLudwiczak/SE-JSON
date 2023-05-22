@@ -18,12 +18,11 @@ public class JSONComparator extends JSONDecorator {
         super(jsonProcessor);
     }
 
+
     /**
-     * Processes the JSON data by comparing it with the content of the second JSON file entered by the user.
-     * The differences between the two JSON files are printed to the console.
-     *
-     * @param jsonData The JSON data to be processed.
-     * @return The processed JSON data.
+     * Ask user for the second JSON file and call CompareJSON method
+     * @param jsonData the JSON data to process
+     * @return unchanged jsonData
      */
     @Override
     public String processJSON(String jsonData) {
@@ -47,7 +46,29 @@ public class JSONComparator extends JSONDecorator {
             throw new RuntimeException(e);
         }
         */
+        return CompareJSON(jsonData, jsonData2);
+    }
 
+    /**
+     * Call CompareJSON method
+     * @param jsonData the JSON data to process
+     * @param jsonData2 second JSON data to process
+     * @return unchanged jsonData
+     */
+    @Override
+    public String processJSON(String jsonData, String jsonData2) {
+        return CompareJSON(jsonData, jsonData2);
+    }
+
+    /**
+     * Processes the JSON data by comparing it with the content of the second JSON file.
+     * The differences between the two JSON files are printed to the console.
+     *
+     * @param jsonData The JSON data to be processed.
+     * @param jsonData2 Second JSON data to be compared
+     * @return unchanged jsonData.
+     */
+    public String CompareJSON(String jsonData, String jsonData2){
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode file1Node = objectMapper.readTree(jsonData);
