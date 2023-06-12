@@ -8,9 +8,11 @@ import java.util.Collections;
 import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-class JSONFilterTest {
+class JSONSelectFilterTest {
     JSONProcessor Processor;
     private String basic = "{\"name\":\"John Doe\",\"age\":30,\"city\":\"New York\"}";
     private String nested = "{\"name\":\"John Doe\",\"age\":30,\"address\":{\"street\":\"123 Main St\",\"city\":\"New York\",\"country\":\"USA\"}}";
@@ -21,12 +23,12 @@ class JSONFilterTest {
     public void setUp(){
         this.Processor = mock(DefaultJSONProcessor.class);
         when(Processor.processJSON(anyString())).thenAnswer(i -> i.getArguments()[0]);
-        Processor = new JSONFilter(Processor);
+        Processor = new JSONSelectFilter(Processor);
     }
 
     @Test
     void TestNoKeys(){
-        assertEquals(Processor.processJSON(basic, Collections.emptySet()), basic);
+        assertEquals(Processor.processJSON(basic, Collections.emptySet()), "{}");
     }
 
     @Test
@@ -34,7 +36,7 @@ class JSONFilterTest {
         HashSet<String> keys = new HashSet<>();
         keys.addAll(Arrays.asList("name", "age", "city"));
 
-        assertEquals(Processor.processJSON(basic, keys), "{}");
+        assertEquals(Processor.processJSON(basic, keys), basic);
     }
 
     @Test
@@ -42,7 +44,7 @@ class JSONFilterTest {
         String ans = "{\"name\":\"John Doe\",\"age\":30,\"address\":{\"city\":\"New York\",\"country\":\"USA\"}}";
 
         HashSet<String> keys = new HashSet<>();
-        keys.add("street");
+        keys.addAll(Arrays.asList("name", "age", "address", "city", "country"));
 
         assertEquals(Processor.processJSON(nested, keys), ans);
     }
@@ -52,7 +54,7 @@ class JSONFilterTest {
         String ans = "{\"name\":\"John Doe\",\"age\":30}";
 
         HashSet<String> keys = new HashSet<>();
-        keys.add("address");
+        keys.addAll(Arrays.asList("name", "age"));
 
         assertEquals(Processor.processJSON(nested, keys), ans);
     }
@@ -62,7 +64,7 @@ class JSONFilterTest {
         String ans = "{\"level1\":{\"level2\":{\"level3\":{\"level4\":{\"level5\":{\"level6\":{\"level7\":{}}}}}}}}";
 
         HashSet<String> keys = new HashSet<>();
-        keys.add("value");
+        keys.addAll(Arrays.asList("level1", "level2", "level3", "level4", "level5", "level6", "level7"));
 
         assertEquals(Processor.processJSON(veryNested, keys), ans);
     }
