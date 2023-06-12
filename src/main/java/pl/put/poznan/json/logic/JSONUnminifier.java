@@ -13,11 +13,10 @@ public class JSONUnminifier extends JSONDecorator {
     public String processJSON(String jsonData) {
         // Delegate processing to the underlying component
         String processedJSON = super.processJSON(jsonData);
-
-        // Unminify the JSON
-        String unminifiedJSON = unminifyJSON(processedJSON);
-
-        return unminifiedJSON;
+        if (!JSONValidator.validate(processedJSON)) {
+            return null;
+        }
+        return unminifyJSON(processedJSON);
     }
 
     /**
@@ -79,7 +78,6 @@ public class JSONUnminifier extends JSONDecorator {
                 }
             }
         }
-
         return unminifiedJSONBuilder.toString();
     }
 
