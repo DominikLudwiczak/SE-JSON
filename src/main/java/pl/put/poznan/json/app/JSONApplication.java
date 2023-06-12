@@ -25,7 +25,7 @@ public class JSONApplication {
 
             StringBuilder json = new StringBuilder();
 
-            System.out.println("Paste valid JSON, and then press enter:\n");
+            System.out.println("Paste valid JSON or path to the JSON file, and then press enter:\n");
             while (!(line = scanner.nextLine()).isEmpty()) {
                 json.append(line).append("\n");
             }
