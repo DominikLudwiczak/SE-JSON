@@ -1,12 +1,14 @@
 package pl.put.poznan.json.app;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import pl.put.poznan.json.logic.*;
-
+import java.nio.file.Files;
+import java.nio.file.Paths;
 @SpringBootApplication(scanBasePackages = { "pl.put.poznan.json.rest" })
 public class JSONApplication {
     public static void main(String[] args) throws IOException {
@@ -29,7 +31,12 @@ public class JSONApplication {
             }
             json.setLength(json.length() - 1);
             jsonContent = json.toString();
+
+            if (!jsonContent.startsWith("{")){
+                jsonContent = new String(Files.readAllBytes(Paths.get(jsonContent)));
+            }
         }
+
 
         System.out.println("Pasted file:" + "\n" + jsonContent + "\n");
         System.out.println("Please chose what You want to do with JSON:");
@@ -47,6 +54,16 @@ public class JSONApplication {
 
             switch (action) {
                 case 0:
+                    System.out.println("Chose path to save JSON");
+                    String path = "";
+                    Scanner a = new Scanner(System.in);
+                    path = a.nextLine();
+                    System.out.println(path);
+                    if (path != ""){
+                        FileWriter fileWriter = new FileWriter(path);
+                        fileWriter.write(jsonContent);
+                        fileWriter.close();
+                    }
                     break;
                 case 1:
                     jsonFile = new JSONMinifier(jsonFile);
