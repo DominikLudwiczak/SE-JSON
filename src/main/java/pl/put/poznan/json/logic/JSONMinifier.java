@@ -5,6 +5,7 @@
 package pl.put.poznan.json.logic;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,10 +31,13 @@ public class JSONMinifier extends JSONDecorator {
     public String processJSON(String jsonData) {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        JsonNode rootNode;
+        if (!JSONValidator.validate(jsonData)) {
+            return null;
+        }
         try {
-            rootNode = objectMapper.readTree(jsonData);
-            return rootNode.toString();
+            return objectMapper.readTree(jsonData).toString();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
