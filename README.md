@@ -23,3 +23,15 @@ https://trello.com/b/ZGYBF1VG/json
 ### Things to continue:
 - good communication inside team
 - helipng each other in tasks
+
+# Retrospective (sprint 2)
+### things to start doing:
+- more unified code across similar classes
+
+### Things to stop doing:
+- stop doing any changes on main branch
+
+### Things to continue:
+- good communication inside team
+- helipng each other in tasks
+- keeping scheduled deadlines
